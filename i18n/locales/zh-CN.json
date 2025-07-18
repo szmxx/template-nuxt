@@ -1,0 +1,48 @@
+{
+  "welcome": "欢迎",
+  "home": "首页",
+  "about": "关于",
+  "contact": "联系我们",
+  "language": "语言",
+  "hello": "你好，世界！",
+  "description": "这是一个集成了多语言功能的 Nuxt 3 模板项目",
+  "seo": {
+    "title": "Nuxt 模板项目",
+    "description": "一个集成了 UnoCSS、VueUse 和 SEO 优化的现代化 Nuxt 3 模板项目"
+  },
+  "demo": {
+    "title": "演示页面",
+    "seo_demo": "SEO 演示",
+    "test_demo": "测试演示",
+    "vueuse_demo": "VueUse 演示"
+  },
+  "colorMode": {
+    "toggle": "切换主题模式",
+    "light": "浅色模式",
+    "dark": "深色模式",
+    "system": "跟随系统"
+  },
+  "pwa": {
+    "installTitle": "安装应用",
+    "installDescription": "将此应用安装到您的设备上，获得更好的体验",
+    "install": "安装",
+    "dismiss": "稍后",
+    "updateAvailable": "应用更新可用",
+    "updateDescription": "新版本已准备就绪，立即更新以获取最新功能",
+    "update": "立即更新",
+    "later": "稍后",
+    "refresh": "刷新",
+    "offline": "您当前处于离线状态",
+    "offlineDescription": "某些功能可能不可用"
+  },
+  "request": {
+  "cancel": "请求已取消"
+},
+"error": {
+  "404": {
+    "title": "页面未找到",
+    "description": "您访问的页面不存在或已被移除",
+    "action": "返回首页"
+  }
+}
+}

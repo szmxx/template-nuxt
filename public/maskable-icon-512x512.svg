@@ -1,0 +1,11 @@
+<svg width="512" height="512" viewBox="0 0 512 512" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- 背景填充整个画布，确保在任何遮罩形状下都有背景 -->
+  <rect width="512" height="512" fill="#3B82F6"/>
+  <!-- 图标内容在安全区域内（中心80%区域） -->
+  <g transform="translate(51.2, 51.2) scale(0.8)">
+    <path d="M128 160h256v192H128V160z" fill="white"/>
+    <path d="M160 224h64v64h-64v-64z" fill="#1E40AF"/>
+    <path d="M256 224h64v64h-64v-64z" fill="#1E40AF"/>
+    <text x="256" y="416" text-anchor="middle" fill="white" font-family="Arial, sans-serif" font-size="64" font-weight="bold">PWA</text>
+  </g>
+</svg>

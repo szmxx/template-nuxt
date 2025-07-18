@@ -1,0 +1,48 @@
+{
+  "welcome": "Welcome",
+  "home": "Home",
+  "about": "About",
+  "contact": "Contact",
+  "language": "Language",
+  "hello": "Hello, World!",
+  "description": "This is a Nuxt 3 template project with multi-language support",
+  "seo": {
+    "title": "Nuxt Template Project",
+    "description": "A modern Nuxt 3 template project integrated with UnoCSS, VueUse and SEO optimization"
+  },
+  "demo": {
+    "title": "Demo Pages",
+    "seo_demo": "SEO Demo",
+    "test_demo": "Test Demo",
+    "vueuse_demo": "VueUse Demo"
+  },
+  "colorMode": {
+    "toggle": "Toggle color mode",
+    "light": "Light mode",
+    "dark": "Dark mode",
+    "system": "System"
+  },
+  "pwa": {
+    "installTitle": "Install App",
+    "installDescription": "Install this app on your device for a better experience",
+    "install": "Install",
+    "dismiss": "Later",
+    "updateAvailable": "App Update Available",
+    "updateDescription": "A new version is ready, update now to get the latest features",
+    "update": "Update Now",
+    "later": "Later",
+    "refresh": "Refresh",
+    "offline": "You are currently offline",
+    "offlineDescription": "Some features may not be available"
+  },
+  "request": {
+    "cancel": "Request canceled"
+  },
+  "error": {
+    "404": {
+      "title": "Page Not Found",
+      "description": "The page you visited does not exist or has been removed",
+      "action": "Back to Home"
+    }
+  }
+}
