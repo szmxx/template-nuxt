@@ -92,7 +92,9 @@ export default defineNuxtConfig({
 
   // Auth 配置
   auth: {
-    baseURL: `https://template-nuxt-lake.vercel.app/api/auth`,
+    baseURL: process.env.VERCEL_URL
+      ? `https://${process.env.VERCEL_URL}/api/auth`
+      : undefined,
     provider: {
       type: "authjs",
     },
