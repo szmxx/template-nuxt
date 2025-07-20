@@ -11,6 +11,7 @@
 - PWA 渐进式网页应用
 - UnoCSS 原子化样式方案
 - API速率限制中间件
+- OAuth 鉴权 (Google, GitHub)
 
 ### 开发支持
 - Vitest 单元测试框架
@@ -52,6 +53,7 @@ template-nuxt/
 ## 📄 文档资源
 - [API开发规范](./docs/API规范.md)
 - [SEO优化指南](./docs/SEO-优化指南.md)
+- [OAuth配置指南](./docs/OAuth配置指南.md)
 - [部署到Docker](./docs/Docker部署.md)
 
 ## 🔧 技术栈

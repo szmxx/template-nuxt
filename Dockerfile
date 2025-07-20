@@ -1,46 +1,49 @@
 # Dockerfile
 
-# Stage 1: Build the Nuxt application
+# 多阶段构建 - 构建阶段
 FROM node:20-alpine AS builder
 
-WORKDIR /app
-
-# Copy package files
-COPY package.json pnpm-lock.yaml ./
-
-# Install pnpm
+# 安装 pnpm
 RUN npm install -g pnpm
 
-# Install dependencies
+# 创建应用目录
+WORKDIR /app
+
+# 复制 package.json 和 pnpm-lock.yaml
+COPY package.json pnpm-lock.yaml ./
+
+# 安装依赖
 RUN pnpm install --frozen-lockfile
 
-# Copy all files
+# 复制源代码
 COPY . .
 
-# Build the application
+# 复制 Docker 环境变量文件
+COPY .env.docker .env
+
+# 构建应用
 RUN pnpm run build
 
-# Stage 2: Create the production image with Nginx
-FROM nginx:alpine
+# 生产环境镜像
+FROM node:20-alpine AS runner
 
-# Copy the built Nuxt app from the builder stage
-# Install Node.js and pm2 to run the Nuxt server
-RUN apk add --no-cache nodejs npm
+# 安装 PM2
 RUN npm install -g pm2
 
-# Copy the built Nuxt app from the builder stage
-# Install Node.js for running the Nuxt server
-RUN apk add --no-cache nodejs
+# 创建应用目录
+WORKDIR /app
 
-# Copy the built Nuxt app and node_modules from the builder stage
+# 从构建阶段复制构建产物
 COPY --from=builder /app/.output /app/.output
-COPY --from=builder /app/node_modules /app/node_modules
 
-# Copy the Nginx configuration
-COPY nginx.conf /etc/nginx/nginx.conf
+# 设置环境变量
+ENV HOST=0.0.0.0
+ENV PORT=80
+ENV NODE_ENV=production
 
-# Expose port 80 for Nginx
+# 暴露端口
 EXPOSE 80
 
-# Start Nginx and the Nuxt server with pm2
-CMD sh -c "(pm2-runtime /app/.output/server/index.mjs --name nuxt-app &) && nginx -g 'daemon off;'"
+
+# 启动 Nuxt 应用
+CMD ["pm2-runtime", "start", "/app/.output/server/index.mjs", "--name", "nuxt-app"]

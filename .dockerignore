@@ -4,10 +4,10 @@
 .git
 .gitignore
 
-# Dependencies
+# Dependencies (会在容器内重新安装)
 node_modules
 
-# Nuxt build outputs
+# Nuxt 构建产物（会在容器内重新生成）
 .nuxt
 .output
 
@@ -19,14 +19,38 @@ node_modules
 *.njsproj
 *.sln
 *.sw?
+.DS_Store
+Thumbs.db
 
 # Logs and temporary files
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 pnpm-debug.log*
+logs/
+*.log
 
-# Environment files
+# 环境文件（除了Docker环境文件）
 .env
-.env.*
+.env.local
+.env.development
+.env.production
 !.env.example
+!.env.docker
+
+# 文档和脚本（不需要在容器内）
+README.md
+DOCKER_DEPLOYMENT.md
+docs/
+build-and-deploy.sh
+
+# Docker 相关
+docker-compose*.yml
+
+# 测试文件
+test/
+
+# 其他开发工具配置
+.editorconfig
+vitest.config.ts
+eslint.config.mjs

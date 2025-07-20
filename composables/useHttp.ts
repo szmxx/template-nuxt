@@ -9,8 +9,17 @@ function isAbortError(error: any): error is DOMException {
 function useHttpConfig() {
   const runtimeConfig = useRuntimeConfig();
 
+  // 在服务器端，需要使用完整的URL
+  if (import.meta.server) {
+    const apiBase = runtimeConfig?.public?.apiBase;
+    return {
+      apiBase: `${process.env.NUXT_PUBLIC_SITE_URL}${apiBase}`,
+    };
+  }
+
+  // 在客户端，使用相对路径
   return {
-    apiBase: runtimeConfig?.public?.apiBase as string,
+    apiBase: runtimeConfig?.public?.apiBase,
   };
 }
 

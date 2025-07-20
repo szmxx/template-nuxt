@@ -6,5 +6,6 @@
     <NuxtPage />
     <PwaInstallPrompt />
     <PwaStatus />
+    <CookieConsent />
   </NuxtLayout>
 </template>

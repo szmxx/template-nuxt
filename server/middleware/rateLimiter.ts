@@ -2,7 +2,7 @@ import { RateLimiterMemory } from "rate-limiter-flexible";
 import type { RateLimiterRes } from "rate-limiter-flexible";
 
 const rateLimiter = new RateLimiterMemory({
-  points: 10, // 每分钟10次请求
+  points: 100, // 每分钟10次请求
   duration: 60,
 });
 

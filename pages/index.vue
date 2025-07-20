@@ -18,45 +18,62 @@
           {{ $t("description") }}
         </p>
 
-        <div class="flex justify-center gap-4 mb-8">
+        <!-- 样式按钮演示 -->
+        <div class="flex justify-center gap-4 mb-6 flex-wrap">
           <button class="btn-primary">主要按钮</button>
           <button class="btn-secondary">次要按钮</button>
           <button class="btn">默认按钮</button>
+        </div>
+        
+        <!-- 功能演示按钮 -->
+        <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 max-w-4xl mx-auto mb-8">
           <NuxtLink
             :to="localePath('/vueuse-demo')"
-            class="btn bg-purple-600 hover:bg-purple-700 text-white px-4 py-2 rounded"
+            class="btn bg-purple-600 hover:bg-purple-700 text-white px-4 py-2 rounded text-center"
           >
             {{ $t("demo.vueuse_demo") }}
           </NuxtLink>
           <NuxtLink
             :to="localePath('/seo-demo')"
-            class="btn bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded"
+            class="btn bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded text-center"
           >
             {{ $t("demo.seo_demo") }}
           </NuxtLink>
           <NuxtLink
             :to="localePath('/test-demo')"
-            class="btn bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded"
+            class="btn bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded text-center"
           >
             {{ $t("demo.test_demo") }}
           </NuxtLink>
           <NuxtLink
             :to="localePath('/pwa-demo')"
-            class="btn bg-orange-600 hover:bg-orange-700 text-white px-4 py-2 rounded"
+            class="btn bg-orange-600 hover:bg-orange-700 text-white px-4 py-2 rounded text-center"
           >
             PWA 演示
           </NuxtLink>
           <NuxtLink
             :to="localePath('/pinia-demo')"
-            class="btn bg-pink-600 hover:bg-pink-700 text-white px-4 py-2 rounded"
+            class="btn bg-pink-600 hover:bg-pink-700 text-white px-4 py-2 rounded text-center"
           >
             Pinia 演示
           </NuxtLink>
           <NuxtLink
             :to="localePath('/api-crud-demo')"
-            class="btn bg-teal-600 hover:bg-teal-700 text-white px-4 py-2 rounded"
+            class="btn bg-teal-600 hover:bg-teal-700 text-white px-4 py-2 rounded text-center"
           >
             API CRUD 演示
+          </NuxtLink>
+          <NuxtLink
+            :to="localePath('/auth-demo')"
+            class="btn bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded text-center font-medium"
+          >
+            {{ $t("demo.authDemo") }}
+          </NuxtLink>
+          <NuxtLink
+            :to="localePath('/analytics-usage-example')"
+            class="btn bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded text-center font-medium"
+          >
+            {{ $t("analytics.usage_examples.title") }}
           </NuxtLink>
         </div>
 
@@ -139,5 +156,4 @@ useSchemaOrg([
     description: t("seo.description"),
   }),
 ]);
-
 </script>

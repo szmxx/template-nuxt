@@ -5,7 +5,20 @@ import { pwaConfig } from "./config/pwa.config";
 import { i18nConfig } from "./config/i18n.config";
 
 export default defineNuxtConfig({
+  // 启用SSR，前后端分离后不再有路由冲突
   compatibilityDate: "2025-05-15",
+
+  // SSR 配置 - 确保生产环境正确处理路由
+  ssr: true,
+
+  // 路由配置 - 添加 fallback 处理
+  router: {
+    options: {
+      hashMode: false,
+      strict: false,
+    },
+  },
+
   // SEO 配置
   site: {
     url: process.env.NUXT_PUBLIC_SITE_URL,
@@ -58,6 +71,7 @@ export default defineNuxtConfig({
   },
 
   modules: [
+    "@sidebase/nuxt-auth",
     "@nuxtjs/seo",
     "@nuxtjs/i18n",
     "@nuxtjs/color-mode",
@@ -76,13 +90,36 @@ export default defineNuxtConfig({
     storesDirs: ["./stores/**"],
   },
 
+  // Auth 配置
+  auth: {
+    baseURL: `${process.env.NUXT_PUBLIC_SITE_URL}/api/auth`,
+    provider: {
+      type: "authjs",
+    },
+  },
+
   // 运行时配置
   runtimeConfig: {
     // 私有配置（仅在服务端可用）
     apiSecret: "123",
+    // Auth 配置
+    authSecret: process.env.NUXT_AUTH_SECRET,
+    googleClientId: process.env.GOOGLE_CLIENT_ID,
+    googleClientSecret: process.env.GOOGLE_CLIENT_SECRET,
+    githubClientId: process.env.GITHUB_CLIENT_ID,
+    githubClientSecret: process.env.GITHUB_CLIENT_SECRET,
+    discordClientId: process.env.DISCORD_CLIENT_ID,
+    discordClientSecret: process.env.DISCORD_CLIENT_SECRET,
+    twitterClientId: process.env.TWITTER_CLIENT_ID,
+    twitterClientSecret: process.env.TWITTER_CLIENT_SECRET,
+    facebookClientId: process.env.FACEBOOK_CLIENT_ID,
+    facebookClientSecret: process.env.FACEBOOK_CLIENT_SECRET,
     // 公共配置（客户端也可用）
     public: {
       apiBase: process.env.NUXT_PUBLIC_API_BASE,
+      googleAnalyticsId: process.env.NUXT_PUBLIC_GOOGLE_ANALYTICS_ID,
+      siteUrl: process.env.NUXT_PUBLIC_SITE_URL,
+      siteName: process.env.NUXT_PUBLIC_SITE_NAME,
     },
   },
 
@@ -128,23 +165,47 @@ export default defineNuxtConfig({
       gzip: true,
       brotli: true,
     },
-    minify: true, // 压缩服务器代码
     sourceMap: false, // 生产环境禁用 source map
     experimental: {
       wasm: true, // 启用 WebAssembly 支持
     },
+    // API路由由Nuxt自动处理，无需手动配置handlers
     routeRules: {
       // 首页预渲染
       "/": { prerender: true },
-      // API 路由缓存
-      "/api/**": { cors: true, headers: { "cache-control": "s-maxage=60" } },
+      // 鉴权API路由 - 禁用所有缓存，确保安全性
+      "/api/auth/**": {
+        cors: true,
+        headers: {
+          "cache-control":
+            "no-store, no-cache, must-revalidate, proxy-revalidate",
+          pragma: "no-cache",
+          expires: "0",
+          "surrogate-control": "no-store",
+        },
+      },
+      // 其他API路由配置 - 强制服务端处理，禁用客户端路由
+      "/api/**": {
+        cors: true,
+        headers: { "cache-control": "no-cache" },
+      },
+      // 静态资源路径
+      "/_nuxt/**": { headers: { "cache-control": "max-age=31536000" } },
+      "/favicon.ico": { headers: { "cache-control": "max-age=31536000" } },
       // 静态页面缓存
       "/seo-demo": { prerender: true },
       "/test-demo": { prerender: true },
-      // 动态页面 ISR
-      "/pwa-demo": { isr: 60 },
+      // 动态页面 ISR - 为所有页面添加路由规则以避免刷新回到首页
+      "/api-crud-demo": { isr: 60 },
+      "/auth-demo": { isr: 60 },
+      "/auth/error": { isr: 60 },
+      "/auth/signin": { isr: 60 },
       "/pinia-demo": { isr: 60 },
+      "/pwa-demo": { isr: 60 },
+      "/seo-example": { isr: 60 },
       "/vueuse-demo": { isr: 60 },
+      // 通用 fallback 规则 - 确保所有页面都能正确处理
+      "/**": { isr: true },
     },
   },
 
@@ -165,24 +226,10 @@ export default defineNuxtConfig({
 
   // Vite 构建配置
   vite: {
-    plugins: [TurboConsole()],
+    plugins: [TurboConsole({})],
     build: {
-      // 生产环境启用压缩
-      minify: "terser",
-      terserOptions: {
-        compress: {
-          drop_console: true,
-          drop_debugger: true,
-          // 移除未使用的代码
-          dead_code: true,
-          // 移除未使用的变量
-          unused: true,
-        },
-        mangle: {
-          // 混淆变量名以减少体积
-          toplevel: true,
-        },
-      },
+      // 使用 esbuild 替代 terser 以避免语法错误
+      minify: "esbuild",
       // 启用 Tree Shaking
       target: "esnext",
       // 减少 chunk 大小警告阈值

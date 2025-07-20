@@ -61,10 +61,20 @@ export const useUserStore = defineStore("user", () => {
       };
       state.isLoggedIn = true;
 
-      // 保存到本地存储
+      // 保存到会话存储（不持久化敏感信息）
       if (import.meta.client) {
-        localStorage.setItem("user", JSON.stringify(state.user));
-        localStorage.setItem("isLoggedIn", "true");
+        // 使用sessionStorage而不是localStorage，确保浏览器关闭后数据被清理
+        sessionStorage.setItem("user", JSON.stringify(state.user));
+        sessionStorage.setItem("isLoggedIn", "true");
+        
+        // 设置自动清理定时器（30分钟无活动后清理）
+        const autoCleanupTime = 30 * 60 * 1000; // 30分钟
+        setTimeout(() => {
+          if (sessionStorage.getItem("user")) {
+            console.log("自动清理用户会话数据");
+            logout();
+          }
+        }, autoCleanupTime);
       }
     } catch (error) {
       console.error("登录失败:", error);
@@ -78,10 +88,24 @@ export const useUserStore = defineStore("user", () => {
     state.user = null;
     state.isLoggedIn = false;
 
-    // 清除本地存储
+    // 清除会话存储和所有敏感数据
     if (import.meta.client) {
-      localStorage.removeItem("user");
-      localStorage.removeItem("isLoggedIn");
+      sessionStorage.removeItem("user");
+      sessionStorage.removeItem("isLoggedIn");
+      
+      // 清理可能的敏感数据
+      const sensitiveKeys = [
+        'access_token',
+        'refresh_token', 
+        'id_token',
+        'auth-token',
+        'session-token'
+      ];
+      
+      sensitiveKeys.forEach(key => {
+        localStorage.removeItem(key);
+        sessionStorage.removeItem(key);
+      });
     }
   }
 
@@ -89,9 +113,9 @@ export const useUserStore = defineStore("user", () => {
     if (state.user) {
       Object.assign(state.user, updates);
 
-      // 更新本地存储
+      // 更新会话存储
       if (import.meta.client) {
-        localStorage.setItem("user", JSON.stringify(state.user));
+        sessionStorage.setItem("user", JSON.stringify(state.user));
       }
     }
   }
@@ -110,17 +134,30 @@ export const useUserStore = defineStore("user", () => {
 
   function initializeFromStorage() {
     if (import.meta.client) {
-      const savedUser = localStorage.getItem("user");
-      const savedIsLoggedIn = localStorage.getItem("isLoggedIn");
+      // 从sessionStorage读取用户数据（不持久化敏感信息）
+      const savedUser = sessionStorage.getItem("user");
+      const savedIsLoggedIn = sessionStorage.getItem("isLoggedIn");
+      // 用户偏好设置可以使用localStorage（非敏感信息）
       const savedPreferences = localStorage.getItem("userPreferences");
 
       if (savedUser && savedIsLoggedIn === "true") {
-        state.user = JSON.parse(savedUser);
-        state.isLoggedIn = true;
+        try {
+          state.user = JSON.parse(savedUser);
+          state.isLoggedIn = true;
+        } catch (error) {
+          console.warn("解析用户数据失败，清理无效数据:", error);
+          sessionStorage.removeItem("user");
+          sessionStorage.removeItem("isLoggedIn");
+        }
       }
 
       if (savedPreferences) {
-        Object.assign(state.preferences, JSON.parse(savedPreferences));
+        try {
+          Object.assign(state.preferences, JSON.parse(savedPreferences));
+        } catch (error) {
+          console.warn("解析用户偏好失败:", error);
+          localStorage.removeItem("userPreferences");
+        }
       }
     }
   }
