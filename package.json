@@ -22,7 +22,13 @@
     "docker:frontend": "docker-compose -f docker-compose.frontend.yml up --build",
     "docker:frontend:down": "docker-compose -f docker-compose.frontend.yml down",
     "docker:original": "docker-compose up --build",
-    "docker:original:down": "docker-compose down"
+    "docker:original:down": "docker-compose down",
+    "deploy:vercel": "./scripts/deploy-vercel.sh",
+    "deploy:vercel:preview": "./scripts/deploy-vercel.sh preview",
+    "deploy:vercel:production": "./scripts/deploy-vercel.sh production",
+    "vercel:env": "vercel env ls",
+    "vercel:logs": "vercel logs",
+    "vercel:domains": "vercel domains ls"
   },
   "dependencies": {
     "@auth/core": "^0.40.0",

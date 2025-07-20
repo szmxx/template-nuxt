@@ -12,6 +12,8 @@
 - UnoCSS 原子化样式方案
 - API速率限制中间件
 - OAuth 鉴权 (Google, GitHub)
+- Google Analytics 4 集成
+- GDPR 合规 Cookie 同意功能
 
 ### 开发支持
 - Vitest 单元测试框架
@@ -19,6 +21,9 @@
 - 自动化API路由生成
 - 可视化构建分析
 - Docker 生产部署配置
+- Vercel 一键部署
+- GitHub Actions 自动化部署
+- Lighthouse CI 性能监控
 
 ## 📦 命令说明
 
@@ -34,6 +39,12 @@ pnpm build
 
 # 预览生产版本
 pnpm preview
+
+# 部署到 Vercel
+pnpm run deploy:vercel
+
+# 部署到 Vercel 生产环境
+pnpm run deploy:vercel:production
 ```
 
 ## 🗂 目录结构
@@ -51,10 +62,22 @@ template-nuxt/
 ```
 
 ## 📄 文档资源
+
+### 开发指南
 - [API开发规范](./docs/API规范.md)
 - [SEO优化指南](./docs/SEO-优化指南.md)
 - [OAuth配置指南](./docs/OAuth配置指南.md)
-- [部署到Docker](./docs/Docker部署.md)
+
+### 部署指南
+- [Vercel 快速部署](./README-Vercel-部署.md)
+- [详细部署指南](./docs/Vercel-部署指南.md)
+- [GitHub Actions 配置](./docs/GitHub-Actions-配置指南.md)
+- [Docker 部署](./docs/Docker部署.md)
+
+### 功能配置
+- [Google Analytics 配置](./docs/Google-Analytics-Cookie-配置指南.md)
+- [快速开始指南](./docs/快速开始指南.md)
+- [代码示例](./examples/analytics-code-examples.js)
 
 ## 🔧 技术栈
 - Vue 3.3
