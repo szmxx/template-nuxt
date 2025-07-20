@@ -57,3 +57,4 @@ ehthumbs.db
 .cache/
 .parcel-cache/
 .vite/
+.vercel

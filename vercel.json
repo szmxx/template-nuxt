@@ -4,12 +4,6 @@
   "devCommand": "pnpm dev",
   "installCommand": "pnpm install",
   "framework": "nuxtjs",
-  "regions": ["hkg1", "sin1"],
-  "functions": {
-    "server/api/**/*.ts": {
-      "maxDuration": 30
-    }
-  },
   "headers": [
     {
       "source": "/(.*)",
@@ -61,7 +55,6 @@
     }
   ],
   "env": {
-    "NUXT_PUBLIC_SITE_URL": "@vercel-url",
     "NODE_ENV": "production"
   }
 }
